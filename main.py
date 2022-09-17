@@ -56,7 +56,7 @@ def encrVisenere(text, nums):
         ind = (ind + 1) % len(nums)
     return (encrypted)
 
-# splits the text to subtexts and decryptes each text independently using caesar 
+# splits the text to subtexts and decryptes each text independently using caesar
 def splitDecr(text,length):
     splited = []
     for i in range(length):
@@ -70,7 +70,7 @@ def splitDecr(text,length):
     return splited
 
 # merges the decrypted subtext into 1 text
-def decrVisenere(text, length):
+def mergeDecr(text, length):
     splited = splitDecr(text, length)
     decrypted = ""
     for i in range(len(splited[0])):
@@ -78,6 +78,19 @@ def decrVisenere(text, length):
             if i < len(splited[j]):
                 decrypted += splited[j][i]
     return decrypted
+
+def decrVisenere(text):
+    error = 1000000
+    length = 0
+    for i in range(8):
+        currText = mergeDecr(text, i + 1)
+        currFreq = findFrequency(currText)
+        currErr = sum(shiftError(currFreq,0))
+        if currErr < error:
+            length = i + 1
+            error = currErr
+            rightText = currText
+    return rightText
 
 letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 frequency = [8.2,1.5,2.8,4.3,13,2.2,2,6.1,7,0.15,0.77,4,2.4,6.7,7.5,1.9,0.095,6,6.3,9.1,2.8,0.98,2.4,0.15,2,0.074]
