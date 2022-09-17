@@ -82,6 +82,7 @@ def mergeDecr(text, length):
 def decrVisenere(text):
     error = 1000000
     length = 0
+    rightText = ""
     for i in range(8):
         currText = mergeDecr(text, i + 1)
         currFreq = findFrequency(currText)
