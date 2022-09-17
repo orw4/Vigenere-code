@@ -46,27 +46,38 @@ def findShift(textFrequency):
             error = newError
     return shift
 
+# encryptes using visenere code
 def encrVisenere(text, nums):
     ind = 0
     encrypted = ""
     for i in text:
         encrypted += shift(i, nums[ind])
-        if i in letters:
-            ind = (ind + 1) % len(nums)
+        #if i in letters:
+        ind = (ind + 1) % len(nums)
     return (encrypted)
 
-#def decrVisenere(text, nums):
-#    for i in range(len(nums)):
-#        nums[i] = -nums[i]
-#    return encrVisenere(text, nums)
+# splits the text to subtexts and decryptes each text independently using caesar 
+def splitDecr(text,length):
+    splited = []
+    for i in range(length):
+        splited.append("")
+    ind = 0
+    for i in range(len(text)):
+        splited[ind] += text[i]
+        ind = (ind + 1) % length
+    for i in range(length):
+        splited[i] = decrCaesar(splited[i])
+    return splited
 
+# merges the decrypted subtext into 1 text
+def decrVisenere(text, length):
+    splited = splitDecr(text, length)
+    decrypted = ""
+    for i in range(len(splited[0])):
+        for j in range(len(splited)):
+            if i < len(splited[j]):
+                decrypted += splited[j][i]
+    return decrypted
 
 letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 frequency = [8.2,1.5,2.8,4.3,13,2.2,2,6.1,7,0.15,0.77,4,2.4,6.7,7.5,1.9,0.095,6,6.3,9.1,2.8,0.98,2.4,0.15,2,0.074]
-
-print(encrVisenere("hi, i want to encrypte this text", [1,2,5]))
-print(decrVisenere("ik, n xcsu vt fphsauug yikx ugcu",[1,2,5]))
-#print(encrCaesar("checking the caesar part",16))
-#print(decrCaesar("sxusaydw jxu squiqh fqhj"))
-#print(encrCaesar("check",17))
-#print(decrCaesar("ipx bsf zpv?"))
