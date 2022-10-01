@@ -1,6 +1,9 @@
 # Visenere code
 # 17/9/2022
 
+letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+frequency = [8.2,1.5,2.8,4.3,13,2.2,2,6.1,7,0.15,0.77,4,2.4,6.7,7.5,1.9,0.095,6,6.3,9.1,2.8,0.98,2.4,0.15,2,0.074]
+
 # changes letter l using num shifts
 def shift(l, num):
     if l in letters:
@@ -65,13 +68,13 @@ def splitDecr(text,length):
     for i in range(len(text)):
         splited[ind] += text[i]
         ind = (ind + 1) % length
-    for i in range(length):
-        splited[i] = decrCaesar(splited[i])
     return splited
 
 # merges the decrypted subtext into 1 text
 def mergeDecr(text, length):
     splited = splitDecr(text, length)
+    for i in range(length):
+        splited[i] = decrCaesar(splited[i])
     decrypted = ""
     for i in range(len(splited[0])):
         for j in range(len(splited)):
@@ -79,11 +82,12 @@ def mergeDecr(text, length):
                 decrypted += splited[j][i]
     return decrypted
 
+# decrypts the text by finding the key length with least error
 def decrVisenere(text):
     error = 1000000
     length = 0
     rightText = ""
-    for i in range(8):
+    for i in range(len(text) // len(letters)):
         currText = mergeDecr(text, i + 1)
         currFreq = findFrequency(currText)
         currErr = sum(shiftError(currFreq,0))
@@ -92,6 +96,3 @@ def decrVisenere(text):
             error = currErr
             rightText = currText
     return rightText
-
-letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-frequency = [8.2,1.5,2.8,4.3,13,2.2,2,6.1,7,0.15,0.77,4,2.4,6.7,7.5,1.9,0.095,6,6.3,9.1,2.8,0.98,2.4,0.15,2,0.074]
